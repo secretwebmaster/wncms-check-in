@@ -1,0 +1,21 @@
+{
+    "name": "secretwebmaster/wncms-check-in",
+    "description": "Allow user to check in regularly and earn credits",
+    "type": "library",
+    "require": {
+        "secretwebmaster/wncms-core": "0.4.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Wncms\\CheckIn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "secretwebmaster",
+            "email": "earnbyshare2016@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
