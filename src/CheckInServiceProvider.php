@@ -18,9 +18,12 @@ class CheckInServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/wncms-check-in.php' => config_path('wncms-check-in.php'),
-                __DIR__ . '/../migrations/' => database_path('migrations'),
-            ], 'wncms-check-in-migrations');
+                // __DIR__ . '/../migrations/' => database_path('migrations'),
+            ], 'wncms-check-in');
         }
+
+        // load migrations
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
         // Load routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
