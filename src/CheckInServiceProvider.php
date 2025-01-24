@@ -61,7 +61,7 @@ class CheckInServiceProvider extends ServiceProvider
 
                 // Add credit
                 // TODO allow user to set the credits to be added
-                if (method_exists($this, 'credits')) && true{
+                if (method_exists($this, 'credits') && true){
                     $amount = config('wncms-check-in.credits_for_check_in', 1);
                     $type = 'balance';
                     $this->credits()->where('type', $type)->first()?->decrement('amount', $amount ?? 0);
