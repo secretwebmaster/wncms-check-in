@@ -17,5 +17,12 @@
             "email": "earnbyshare2016@gmail.com"
         }
     ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wncms\\CheckIn\\CheckInServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 }
