@@ -4,6 +4,7 @@ namespace Wncms\CheckIn;
 
 use Illuminate\Support\ServiceProvider;
 use Wncms\CheckIn\Models\CheckIn;
+use Wncms\Facades\MacroableModels;
 
 class CheckInServiceProvider extends ServiceProvider
 {
@@ -51,14 +52,16 @@ class CheckInServiceProvider extends ServiceProvider
         // get the user model
         $userModel = config('wncms.default_user_model', \Wncms\Models\User::class);
 
-        // check if user has checked in today
-        $userModel::macro('has_checked_in', function () {
+        MacroableModels::addMacro($userModel, 'has_checked_in', function(){
+            if(!auth()->check()) return false;
             $today = now()->startOfDay();
-            return $this->check_ins()->whereDate('check_in_date', $today)->exists();
+            return $this->check_ins()->whereDate('created_at', $today)->exists();
         });
 
-        // add check in method to user model
-        $userModel::macro('check_in_now', function () {
+        MacroableModels::addMacro($userModel, 'check_in_now', function(){
+
+            if(!auth()->check()) return false;
+
             if(!$this->has_checked_in()){
                 $checkIn = CheckIn::create(['user_id' => $this->id]);
 
@@ -67,11 +70,13 @@ class CheckInServiceProvider extends ServiceProvider
                 if (method_exists($this, 'credits') && true){
                     $amount = config('wncms-check-in.credits_for_check_in', 1);
                     $type = 'balance';
-                    $this->credits()->where('type', $type)->first()?->decrement('amount', $amount ?? 0);
+                    $this->credits()->where('type', $type)->first()?->increment('amount', $amount ?? 0);
                 }
 
                 return $checkIn;
             }
+
+            return false;
         });
     }
 }
