@@ -5,6 +5,7 @@ namespace Wncms\CheckIn;
 use Illuminate\Support\ServiceProvider;
 use Wncms\CheckIn\Models\CheckIn;
 use Wncms\Facades\MacroableModels;
+use Wncms\Models\Credit;
 
 class CheckInServiceProvider extends ServiceProvider
 {
@@ -68,9 +69,9 @@ class CheckInServiceProvider extends ServiceProvider
                 // Add credit
                 // TODO allow user to set the credits to be added
                 if (method_exists($this, 'credits') && true){
-                    $amount = config('wncms-check-in.credits_for_check_in', 1);
-                    $type = 'balance';
-                    $this->credits()->where('type', $type)->first()?->increment('amount', $amount ?? 0);
+                    $amount = config('wncms-check-in.credits_amount_for_check_in', 1);
+                    $type = config('wncms-check-in.credits_type_for_check_in', 'points');
+                    Credit::add($this, $amount, $type);
                 }
 
                 return $checkIn;
