@@ -3,7 +3,7 @@
     "description": "Allow user to check in regularly and earn credits",
     "type": "library",
     "require": {
-        "secretwebmaster/wncms-core": "^0.4.5"
+        "secretwebmaster/wncms-core": ">=0.4.5"
     },
     "license": "MIT",
     "autoload": {
